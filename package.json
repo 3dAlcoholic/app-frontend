@@ -1,0 +1,25 @@
+{
+  "name": "vite-project",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^4.4.5"
+  },
+  "dependencies": {
+    "@popperjs/core": "^2.11.8",
+    "@wagmi/core": "^1.4.3",
+    "@walletconnect/ethereum-provider": "^2.10.2",
+    "@walletconnect/universal-provider": "^2.10.2",
+    "@web3modal/wagmi": "^3.0.2",
+    "bootstrap": "^5.3.2",
+    "viem": "^1.15.5",
+    "wagmi": "^1.4.3",
+    "web3": "^4.1.2"
+  }
+}
