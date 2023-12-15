@@ -1,7 +1,7 @@
 import Web3 from 'web3'
 import { createWeb3Modal, defaultWagmiConfig } from '@web3modal/wagmi'
 import { EthereumProvider } from '@walletconnect/ethereum-provider';
-import { bsc } from '@wagmi/core/chains'
+import { pulsechain } from '@wagmi/core/chains'
 
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 
@@ -19,8 +19,8 @@ import CONTRACTS from '../config/contracts.js'
 
 const MAX_INT_HEX =  "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff";
 
-const WBNB = '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c';
-const BUSD = '0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56';
+const WPLS = '0xA1077a294dDE1B09bB078844df40758a5D0f9a27';
+const DAI = '0xefD766cCb38EaF1dfd701853BFCe31359239F305';
 
 // 1. Define constants
 const projectName = import.meta.env.VITE_APPLICATION_NAME
@@ -30,13 +30,12 @@ const projectURL = import.meta.env.VITE_APPLICATION_URL
 
 // 2. Create wagmiConfig
 
-const chains = [bsc]
-const optionalChains = []
+const chains = [pulsechain]
+
+const optionalChains = [369]
+
 const showQrModal = true
-const methods = ['eth_sendTransaction', 'eth_accounts']
-const optionalMethods = []
-const events = []
-const optionalEvents = []
+
 const rpcMap = {}
 const metadata = {
   name: projectName,
@@ -67,13 +66,8 @@ const web3Modal = createWeb3Modal({
 
 const provider = await EthereumProvider.init({
     projectId, 
-    chains, 
     optionalChains, 
     showQrModal, 
-    methods, 
-    optionalMethods, 
-    events, 
-    optionalEvents, 
     rpcMap, 
     metadata, 
     qrModalOptions
@@ -92,9 +86,9 @@ console.log(account)
 
 async function getTokenData() {
 
-    const name = await readContract({ address: WBNB, abi: ABI_ERC20, functionName: 'name' })
-    const totalSupply = await readContract({ address: WBNB, abi: ABI_ERC20, functionName: 'totalSupply' })
-    const decimals = await readContract({ address: WBNB, abi: ABI_ERC20, functionName: 'decimals' })
+    const name = await readContract({ address: WPLS, abi: ABI_ERC20, functionName: 'name' })
+    const totalSupply = await readContract({ address: WPLS, abi: ABI_ERC20, functionName: 'totalSupply' })
+    const decimals = await readContract({ address: WPLS, abi: ABI_ERC20, functionName: 'decimals' })
 
     // 7. console log it all
     console.log('name', name)
@@ -118,13 +112,13 @@ async function transferMainTx() {
     const to = document.querySelector('#transfer-main-recipient').value
     const value = document.querySelector('#transfer-main-amount').value
 
-    const decimals = await readContract({ abi: ABI_ERC20, address: WBNB, functionName: 'decimals' })
+    const decimals = await readContract({ abi: ABI_ERC20, address: WPLS, functionName: 'decimals' })
 
     const amount = value * 10 ** decimals;
 
     const tx = await writeContract({
         abi: ABI_ERC20, 
-        address: WBNB, 
+        address: WPLS, 
         functionName: 'transfer', 
         args: [to, amount], value: 0 })
     console.log('tx', tx)
